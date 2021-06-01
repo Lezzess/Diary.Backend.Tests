@@ -29,22 +29,6 @@ class HttpRequest:
         self._url_parameters = None
         self._body = None
 
-    @property
-    def method(self) -> Optional[HttpMethod]:
-        return self._method
-
-    @property
-    def url(self) -> Optional[str]:
-        return self._url
-
-    @property
-    def url_parameters(self) -> Optional[Dict[str, Any]]:
-        return self._url_parameters
-
-    @property
-    def body(self) -> Optional[Dict[str, Any]]:
-        return self._body
-
     def get(self) -> HttpRequest:
         self._method = HttpMethod.GET
         return self
@@ -73,11 +57,11 @@ class HttpRequest:
         self._body = body_parameters
         return self
 
-    def send(self) -> requests.Response:
+    def send(self) -> HttpResponse:
         request = self._build()
         request["verify"] = False
         response = requests.request(**request)
-        return response
+        return HttpResponse(response)
 
     def _build(self) -> Dict[str, Any]:
         request = dict()
@@ -88,3 +72,12 @@ class HttpRequest:
         if self._body is not None:
             request["data"] = json.dumps(self._body)
         return request
+
+
+class HttpResponse:
+    status_code: int
+    body: Optional[Any]
+
+    def __init__(self, response: requests.Response):
+        self.status_code = response.status_code
+        self.body = response.json() if 200 <= response.status_code < 300 else None
