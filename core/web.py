@@ -81,6 +81,7 @@ class HttpRequest:
 
     def _build(self) -> Dict[str, Any]:
         request = dict()
+        request["headers"] = {"Content-Type": "application/json"}
         request["method"] = self._method.value
         request["url"] = self._url
         request["params"] = self._url_parameters
