@@ -65,11 +65,11 @@ class HttpRequest:
         self._url = f"{_URL}{api}"
         return self
 
-    def with_url_parameters(self, **parameters: Dict[str, Any]) -> HttpRequest:
+    def with_url_parameters(self, **parameters) -> HttpRequest:
         self._url_parameters = parameters
         return self
 
-    def with_body(self, **body_parameters: Dict[str, Any]) -> HttpRequest:
+    def with_body(self, **body_parameters) -> HttpRequest:
         self._body = body_parameters
         return self
 
