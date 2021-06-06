@@ -187,10 +187,10 @@ class TestRemoveDiary:
 
         assert remove_diary_response.status_code == 400
 
-    def test_WhenDiaryNotExists_Returns200(self, diaries_api):
+    def test_WhenDiaryNotExists_Returns404(self, diaries_api):
         id = str(uuid.uuid4())
 
         diaries_api.remove(id)
         remove_diary_response = diaries_api.remove(id)
 
-        assert remove_diary_response.status_code == 200
+        assert remove_diary_response.status_code == 404
